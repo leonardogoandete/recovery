@@ -11,6 +11,10 @@ def checkpoint():
     logDisco = memoriaLog
     #print(disco)
 
+def falha():
+    memoriaLog.clear() 
+    memoriaDado.clear()
+
 def update():
     numTransacao = input("Digite a transacao: ")
     idValor = int(input("ID da pessoa: "))
@@ -42,7 +46,7 @@ while i != 's':
     elif i == 'd':
         checkpoint()
     elif i == 'e':
-        print("falha")
+        falha()
     elif i == 'f':
         commit()
     else:
