@@ -2,37 +2,24 @@ discoLog = []
 memoriaLog = []
 memoriaDado = [5000,7000,9000,11000,13000]
 discoDado = [5000,7000,9000,11000,13000] 
-#transacao = [] # teste
-
+copiaMemoriaDado = memoriaDado
 def commit():
     try:
-        y = 0
         t = input("Digite a transação:")
-        for x in memoriaLog:
-            if t in x:
-                y=+1
-            break
-        discoLog.append(memoriaLog[y])
+        discoLog.append([ s for s in memoriaLog if t in s ])  
     except:
         print("== Erro ao realizar commit!")
-
+    
 def checkpoint():
     try:
-        discoLog = memoriaLog
-        discoDado = memoriaDado
-        print("Sucesso ao fazer Checkpoint!")
+        discoDado[:] = memoriaDado[:]
+        discoLog[:] = memoriaLog[:]
     except:
-        print("== Erro ao fazer checkpoint!")
+        print("Erro ao realizar Checkpoint")
 
 def falha():
     memoriaLog.clear() 
-    memoriaDado.clear()
-
-def visualizaDiscoDados():
-    print(discoDado)
-
-def visualizaMemoriaDados():
-    print(memoriaDado)
+    memoriaDado.clear()     
 
 def update():
     try:
@@ -76,9 +63,9 @@ while i != 's':
     elif i == 'f':
         commit()
     elif i == 'g':
-        visualizaDiscoDados()
+        print(discoDado)
     elif i == 'h':
-        visualizaMemoriaDados()
+        print(memoriaDado)
     else:
         print("Saindo...")
         break
