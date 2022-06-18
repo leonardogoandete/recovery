@@ -5,7 +5,13 @@ discoDado = [5000,7000,9000,11000,13000]
 #transacao = [] # teste
 
 def commit():
-    print()
+    y = 0
+    t = input("Digite a transação:")
+    for x in memoriaLog:
+      if t in x:
+        y=+1
+        break
+    logDisco.append(memoriaLog[y])
 
 def checkpoint():
     logDisco = memoriaLog
@@ -33,7 +39,7 @@ def menu():
     print("s - Sair do programa")
     print("Digite a opcao: ")
 
-i = ''
+i = None
 while i != 's':
     menu()
     i = input()
@@ -46,6 +52,7 @@ while i != 's':
     elif i == 'd':
         checkpoint()
     elif i == 'e':
+        #chamar Undo e Redo
         falha()
     elif i == 'f':
         commit()
