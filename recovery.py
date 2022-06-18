@@ -2,20 +2,32 @@ discoLog = []
 memoriaLog = []
 memoriaDado = [5000,7000,9000,11000,13000]
 discoDado = [5000,7000,9000,11000,13000] 
-copiaMemoriaDado = memoriaDado
+redo = []
+undo = []
+
 def commit():
     try:
         t = input("Digite a transação:")
-        discoLog.append([ s for s in memoriaLog if t in s ])  
+        discoLog.append([s for s in memoriaLog if t in s]) 
+        redo.append([s for s in memoriaLog if t in s]) #
     except:
         print("== Erro ao realizar commit!")
     
 def checkpoint():
-    try:
+    #try:
         discoDado[:] = memoriaDado[:]
+        f = open("discodado.txt", "w")
+        f.write(str(discoDado)+"\n")
+        f.close
+        ##########
         discoLog[:] = memoriaLog[:]
-    except:
-        print("Erro ao realizar Checkpoint")
+        f = open("discolog.txt", "w")
+        f.write(str(discoLog)+"\n")
+        f.close
+        #discoLog.append("CKPNT")
+        redo[:] = memoriaLog[:] # professorra pode dar checkpoint antes do commit e vice versa
+    #except:
+    #    print("Erro ao realizar Checkpoint")
 
 def falha():
     memoriaLog.clear() 
@@ -34,8 +46,8 @@ def update():
         print("== Erro ao fazer update!")
 #Transação | ID da pessoa | atributo | valor Antigo | Valor novo
 def menu():
-    print("a - Visualizar buffer do Log")
-    print("b - Visualizar log do disco")
+    print("a - Visualizar Log da memoria")
+    print("b - Visualizar Log do disco")
     print("c - Update")
     print("d - Checkpoint")
     print("e - Falha")
@@ -66,6 +78,8 @@ while i != 's':
         print(discoDado)
     elif i == 'h':
         print(memoriaDado)
+    elif i == 'i':
+        print("REDO",redo + "\n UNDO",undo)
     else:
         print("Saindo...")
         break

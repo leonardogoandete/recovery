@@ -1,0 +1,4 @@
+[('t1', 1, 'salario', 5000, 11111), 
+ckepoint
+('t2', 1, 'salario', 11111, 5555)]
+checkpoint
