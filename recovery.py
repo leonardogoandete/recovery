@@ -1,15 +1,22 @@
+from operator import contains
+import os
 discoLog = []
 memoriaLog = []
 memoriaDado = [5000,7000,9000,11000,13000]
 discoDado = [5000,7000,9000,11000,13000] 
-redo = []
+redo = [] # 
 undo = []
+auxCommit = [] #
+
+def limpaTela():
+    os.system('cls' if os.name == 'nt' else 'clear')
 
 def commit():
     try:
         t = input("Digite a transação:")
-        discoLog.append([s for s in memoriaLog if t in s]) 
+        discoLog.append([s for s in memoriaLog if t in s])
         redo.append([s for s in memoriaLog if t in s]) #
+        print("Transação",t,"commitada com sucesso!")
     except:
         print("== Erro ao realizar commit!")
     
@@ -21,15 +28,27 @@ def checkpoint():
         f.close
         ##########
         discoLog[:] = memoriaLog[:]
-        f = open("discolog.txt", "w")
+        f = open("discolog.txt", "a")
         f.write(str(discoLog)+"\n")
+        f.write(str("<CHECKPOINT>"))
         f.close
-        #discoLog.append("CKPNT")
+        #discoLog.append("<CHECKPOINT>")
         redo[:] = memoriaLog[:] # professorra pode dar checkpoint antes do commit e vice versa
     #except:
     #    print("Erro ao realizar Checkpoint")
+def fUndo():
+    #redo
+    #auxCommit ou discoLog
+    #undo.append([element for element in memoriaLog if element not in redo])
+    for s in redo:
+        if s not in memoriaLog:
+            undo.append(s)
+            break
+        else:
+            break
 
 def falha():
+    fUndo()
     memoriaLog.clear() 
     memoriaDado.clear()     
 
@@ -43,6 +62,7 @@ def update():
         memoriaDado[idValor - 1] = novoVal
         print("Sucesso ao fazer Update!")
     except:
+        limpaTela()
         print("== Erro ao fazer update!")
 #Transação | ID da pessoa | atributo | valor Antigo | Valor novo
 def menu():
@@ -54,6 +74,7 @@ def menu():
     print("f - Commit")
     print("g - Visualizar dados no disco")
     print("h - Visualizar dados na memoria")
+    print("i - Visualizar dados UNDO e REDO")
     print("s - Sair do programa")
     print("Digite a opcao: ")
 
@@ -79,7 +100,7 @@ while i != 's':
     elif i == 'h':
         print(memoriaDado)
     elif i == 'i':
-        print("REDO",redo + "\n UNDO",undo)
+        print("REDO",redo,"\nUNDO",undo)
     else:
         print("Saindo...")
         break
