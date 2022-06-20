@@ -20,7 +20,7 @@ def commit():
         print("== Erro ao realizar commit!")
     
 def checkpoint():
-    #try:
+    try:
         #discoDado[:] = memoriaDado[:]
         if(os.path.exists('discodado.txt')):
             f = open("discodado.txt", "w")
@@ -42,8 +42,8 @@ def checkpoint():
             print("O arquivo \"discolog.txt\" nao existe!")
         #discoLog.append("<CHECKPOINT>")
         redo[:] = memoriaLog[:] # professorra pode dar checkpoint antes do commit e vice versa
-    #except:
-    #    print("Erro ao realizar Checkpoint")
+    except:
+        print("Erro ao realizar Checkpoint")
 def fUndo():
     #redo
     #auxCommit ou discoLog

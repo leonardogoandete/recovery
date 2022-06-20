@@ -6,3 +6,5 @@
 ('t3', 3, 'salario', 9000, 3333)
 ('t4', 4, 'salario', 11000, 4444)
 <CHECKPOINT>
+<CHECKPOINT>
+<CHECKPOINT>
