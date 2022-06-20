@@ -44,6 +44,7 @@ def checkpoint():
         redo[:] = memoriaLog[:] # professorra pode dar checkpoint antes do commit e vice versa
     except:
         print("Erro ao realizar Checkpoint")
+
 def fUndo():
     #redo
     #auxCommit ou discoLog
@@ -88,9 +89,12 @@ while i != 's':
     if i == 'a':
         print(memoriaLog)
     elif i == 'b':
-        f = open("discolog.txt", "r")
-        print(f.read())
-        f.close
+        if(os.path.exists('discolog.txt')):
+            f = open("discolog.txt", "r")
+            print(f.read())
+            f.close
+        else:
+            print("O arquivo \"discolog.txt\" nao existe!")
     elif i == 'c':
         update()
     elif i == 'd':
@@ -101,10 +105,13 @@ while i != 's':
     elif i == 'f':
         commit()
     elif i == 'g':
-        f = open("discodado.txt", "r")
-        print(f.read())
-        f.close
-        #print(discoDado)
+        if(os.path.exists('discodado.txt')):
+            f = open("discodado.txt", "r")
+            print(f.read())
+            f.close
+            #print(discoDado)
+        else:
+            print("O arquivo \"discodado.txt\" nao existe!")
     elif i == 'h':
         print(memoriaDado)
     elif i == 'i':
