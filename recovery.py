@@ -14,8 +14,8 @@ def limpaTela():
 def commit():
     try:
         t = input("Digite a transação:")
-        discoLog.append([s for s in memoriaLog if t in s])
-        redo.append([s for s in memoriaLog if t in s]) #
+        discoLog[:] += ([s for s in memoriaLog if t in s])
+        redo[:] += ([s for s in memoriaLog if t in s]) #
         print("Transação",t,"commitada com sucesso!")
     except:
         print("== Erro ao realizar commit!")
@@ -40,12 +40,9 @@ def fUndo():
     #redo
     #auxCommit ou discoLog
     #undo.append([element for element in memoriaLog if element not in redo])
-    for s in redo:
-        if s not in memoriaLog:
+    for s in memoriaLog:
+        if s not in redo:
             undo.append(s)
-            break
-        else:
-            break
 
 def falha():
     fUndo()
@@ -58,7 +55,7 @@ def update():
         idValor = int(input("ID da pessoa: "))
         velhoVal = discoDado[idValor - 1]
         novoVal = int(input("Digite o valor: "))
-        memoriaLog.append((numTransacao,idValor,"salario",velhoVal,novoVal))
+        memoriaLog[:] += [(numTransacao,idValor,"salario",velhoVal,novoVal)]
         memoriaDado[idValor - 1] = novoVal
         print("Sucesso ao fazer Update!")
     except:

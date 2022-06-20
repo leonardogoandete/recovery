@@ -1,0 +1,3 @@
+https://www.delftstack.com/pt/howto/python/compare-lists-python/
+
+https://www.delftstack.com/pt/howto/python/difference-between-two-lists-python/#:~:text=listas%20em%20Python.-,Use%20set.,tamb%C3%A9m%20%C3%A9%20chamada%20de%20conjunto.
