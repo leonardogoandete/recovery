@@ -6,7 +6,6 @@ memoriaDado = [5000,7000,9000,11000,13000]
 discoDado = [5000,7000,9000,11000,13000] 
 redo = [] # 
 undo = []
-auxCommit = [] #
 
 def limpaTela():
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -16,21 +15,25 @@ def commit():
         t = input("Digite a transação:")
         discoLog[:] += ([s for s in memoriaLog if t in s])
         redo[:] += ([s for s in memoriaLog if t in s]) #
-        print("Transação",t,"commitada com sucesso!")
+        # REDO joga pro disco
+        print("Transação",t,"commitada com sucesso!")     
     except:
         print("== Erro ao realizar commit!")
     
 def checkpoint():
     #try:
-        discoDado[:] = memoriaDado[:]
+        #discoDado[:] = memoriaDado[:]
         f = open("discodado.txt", "w")
-        f.write(str(discoDado)+"\n")
+        #f.write(str(discoDado)+"\n")
+        f.write(str(memoriaDado[:])+"\n")
         f.close
         ##########
-        discoLog[:] = memoriaLog[:]
+        #discoLog[:] = memoriaLog[:]
         f = open("discolog.txt", "a")
-        f.write(str(discoLog)+"\n")
-        f.write(str("<CHECKPOINT>"))
+        #f.write(str(discoLog)+"\n")
+        for i in memoriaLog:
+            f.write(str(i)+"\n")
+        f.write(str("<CHECKPOINT>\n"))
         f.close
         #discoLog.append("<CHECKPOINT>")
         redo[:] = memoriaLog[:] # professorra pode dar checkpoint antes do commit e vice versa
@@ -40,9 +43,7 @@ def fUndo():
     #redo
     #auxCommit ou discoLog
     #undo.append([element for element in memoriaLog if element not in redo])
-    for s in memoriaLog:
-        if s not in redo:
-            undo.append(s)
+    undo[:] += ([s for s in memoriaLog if s not in redo])  
 
 def falha():
     fUndo()
