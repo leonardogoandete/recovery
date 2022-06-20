@@ -22,18 +22,24 @@ def commit():
 def checkpoint():
     #try:
         #discoDado[:] = memoriaDado[:]
-        f = open("discodado.txt", "w")
-        #f.write(str(discoDado)+"\n")
-        f.write(str(memoriaDado[:])+"\n")
-        f.close
+        if(os.path.exists('discodado.txt')):
+            f = open("discodado.txt", "w")
+            #f.write(str(discoDado)+"\n")
+            f.write(str(memoriaDado[:])+"\n")
+            f.close
+        else:
+            print("O arquivo \"discodado.txt\" nao existe!")
         ##########
-        #discoLog[:] = memoriaLog[:]
-        f = open("discolog.txt", "a")
-        #f.write(str(discoLog)+"\n")
-        for i in memoriaLog:
-            f.write(str(i)+"\n")
-        f.write(str("<CHECKPOINT>\n"))
-        f.close
+        if(os.path.exists('discolog.txt')):
+            #discoLog[:] = memoriaLog[:]
+            f = open("discolog.txt", "a")
+            #f.write(str(discoLog)+"\n")
+            for i in memoriaLog:
+                f.write(str(i)+"\n")
+            f.write(str("<CHECKPOINT>\n"))
+            f.close
+        else:
+            print("O arquivo \"discolog.txt\" nao existe!")
         #discoLog.append("<CHECKPOINT>")
         redo[:] = memoriaLog[:] # professorra pode dar checkpoint antes do commit e vice versa
     #except:
