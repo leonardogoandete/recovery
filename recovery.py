@@ -1,4 +1,3 @@
-from operator import contains
 import os
 discoLog = []
 memoriaLog = []
@@ -64,15 +63,15 @@ def update():
         print("== Erro ao fazer update!")
 #Transação | ID da pessoa | atributo | valor Antigo | Valor novo
 def menu():
-    print("a - Visualizar Log da memoria")
-    print("b - Visualizar Log do disco")
+    print("a - Visualizar Log na memoria")
+    print("b - Visualizar Log no disco")
     print("c - Update")
     print("d - Checkpoint")
     print("e - Falha")
     print("f - Commit")
     print("g - Visualizar dados no disco")
     print("h - Visualizar dados na memoria")
-    print("i - Visualizar dados UNDO e REDO")
+    print("i - Visualizar UNDO e REDO")
     print("s - Sair do programa")
     print("Digite a opcao: ")
 
@@ -83,7 +82,9 @@ while i != 's':
     if i == 'a':
         print(memoriaLog)
     elif i == 'b':
-        print(discoLog)
+        f = open("discolog.txt", "r")
+        print(f.read())
+        f.close
     elif i == 'c':
         update()
     elif i == 'd':
@@ -94,7 +95,10 @@ while i != 's':
     elif i == 'f':
         commit()
     elif i == 'g':
-        print(discoDado)
+        f = open("discodado.txt", "r")
+        print(f.read())
+        f.close
+        #print(discoDado)
     elif i == 'h':
         print(memoriaDado)
     elif i == 'i':
