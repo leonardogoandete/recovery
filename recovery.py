@@ -1,11 +1,16 @@
 import os
+from tabnanny import check
+
+from sqlalchemy import false, true
 discoLog = []
 memoriaLog = []
 memoriaDado = [5000,7000,9000,11000,13000]
 discoDado = [5000,7000,9000,11000,13000] 
 redo = [] # 
 undo = []
-
+finalizada =[]
+naoFinalizada =[]
+checkpoint = false
 def limpaTela():
     os.system('cls' if os.name == 'nt' else 'clear')
 
@@ -13,7 +18,18 @@ def commit():
     try:
         t = input("Digite a transação:")
         discoLog[:] += ([s for s in memoriaLog if t in s])
-        redo[:] += ([s for s in memoriaLog if t in s]) #
+        finalizada[:] += ([s for s in memoriaLog if t in s]) #
+        if checkpoint == true:
+            for finalizada[:] in t:
+                print("$",finalizada)
+            else:
+                print("!!!",finalizada)
+        if checkpoint == false:
+            #for memoriaLog[:] in finalizada:
+            naoFinalizada[:] += ([s for s in memoriaLog[:] if s not in finalizada])
+                    
+        #finalizada[:] += ([s for s in memoriaLog if t in s])
+        #redo[:] += ([s for s in finalizada if redo not in teste])
         # REDO joga pro disco
         print("Transação",t,"commitada com sucesso!")     
     except:
@@ -41,7 +57,8 @@ def checkpoint():
         else:
             print("O arquivo \"discolog.txt\" nao existe!")
         #discoLog.append("<CHECKPOINT>")
-        redo[:] = memoriaLog[:] # professorra pode dar checkpoint antes do commit e vice versa
+        #redo[:] = memoriaLog[:] # professorra pode dar checkpoint antes do commit e vice versa
+        #redo[:] += ([s for s in memoriaLog if (s not in finalizada) AND ]) 
     except:
         print("Erro ao realizar Checkpoint")
 
@@ -49,7 +66,7 @@ def fUndo():
     #redo
     #auxCommit ou discoLog
     #undo.append([element for element in memoriaLog if element not in redo])
-    undo[:] += ([s for s in memoriaLog if s not in redo])  
+    undo[:] += ([s for s in memoriaLog if (s not in redo) and (s not in finalizada)])  
 
 def falha():
     fUndo()
@@ -99,6 +116,7 @@ while i != 's':
         update()
     elif i == 'd':
         checkpoint()
+        checkpoint = true
     elif i == 'e':
         #chamar Undo e Redo
         falha()
@@ -115,7 +133,11 @@ while i != 's':
     elif i == 'h':
         print(memoriaDado)
     elif i == 'i':
-        print("REDO",redo,"\nUNDO",undo)
+        print("REDO",redo,\
+              "\nUNDO",undo,\
+              "\nFINALIZADAS",finalizada, \
+              "\nnaoFinalizada",naoFinalizada
+              )
     else:
         print("Saindo...")
         break
