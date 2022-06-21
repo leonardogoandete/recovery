@@ -49,7 +49,8 @@ def falha():
         print("ID:",i[:][1])
         posicao = i[:][1]
         print("disco:",discoDado[posicao-1])
-        discoDado[posicao-1] = i[:][3]
+        val = int(i[:][3])
+        discoDado[posicao-1] = val
         print("Teste apos falha:", discoDado) 
 
     memoriaLog.clear() 
@@ -118,7 +119,8 @@ while i != 's':
         print(memoriaDado)
     elif i == 'i':
         print("REDO",redo,\
-              "\nUNDO",undo
+              "\nUNDO",undo,
+              "Var discoDado:",discoDado
               )
     else:
         print("Saindo...")
