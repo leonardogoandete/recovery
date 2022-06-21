@@ -1,11 +1,12 @@
-from operator import contains
 import os
 discoLog = []
 memoriaLog = []
 memoriaDado = [5000,7000,9000,11000,13000]
 discoDado = [5000,7000,9000,11000,13000] 
-redo = [] # 
+redo = []
 undo = []
+dadosDisco = 'discodado.txt'
+logsDisco = 'discolog.txt'
 
 def limpaTela():
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -15,38 +16,37 @@ def commit():
         t = input("Digite a transação:")
         discoLog[:] += ([s for s in memoriaLog if t in s])
         redo[:] += ([s for s in memoriaLog if t in s]) #
-        # REDO joga pro disco
-        print("Transação",t,"commitada com sucesso!")     
+        if(os.path.exists(logsDisco)):
+            f = open(logsDisco, "w")
+            for i in discoLog:
+                f.write(str(i)+"\n")
+            f.close
     except:
         print("== Erro ao realizar commit!")
     
 def checkpoint():
-    #try:
-        #discoDado[:] = memoriaDado[:]
-        f = open("discodado.txt", "w")
-        #f.write(str(discoDado)+"\n")
-        f.write(str(memoriaDado[:])+"\n")
-        f.close
-        ##########
-        #discoLog[:] = memoriaLog[:]
-        f = open("discolog.txt", "a")
-        #f.write(str(discoLog)+"\n")
-        for i in memoriaLog:
-            f.write(str(i)+"\n")
-        f.write(str("<CHECKPOINT>\n"))
-        f.close
-        #discoLog.append("<CHECKPOINT>")
-        redo[:] = memoriaLog[:] # professorra pode dar checkpoint antes do commit e vice versa
-    #except:
-    #    print("Erro ao realizar Checkpoint")
-def fUndo():
-    #redo
-    #auxCommit ou discoLog
-    #undo.append([element for element in memoriaLog if element not in redo])
-    undo[:] += ([s for s in memoriaLog if s not in redo])  
+    try:
+        if(os.path.exists(dadosDisco)):
+            f = open(dadosDisco, "w")
+            f.write(str(memoriaDado[:])+"\n")
+            f.close
+        else:
+            print("O arquivo \"DadosDisco.txt\" nao existe!")
+        if(os.path.exists(logsDisco)):
+            f = open(logsDisco, "w")
+            for i in memoriaLog:
+                f.write(str(i)+"\n")
+            f.write(str("<CHECKPOINT>\n"))
+            f.close
+        else:
+            print("O arquivo \"logDisco.txt\" nao existe!")
+    except:
+        print("Erro ao realizar Checkpoint")    
 
 def falha():
-    fUndo()
+    undo[:] += ([s for s in memoriaLog if s not in redo])
+    for i in undo:
+        print(undo)
     memoriaLog.clear() 
     memoriaDado.clear()     
 
@@ -83,7 +83,12 @@ while i != 's':
     if i == 'a':
         print(memoriaLog)
     elif i == 'b':
-        print(discoLog)
+        if(os.path.exists(logsDisco)):
+            f = open(logsDisco, "r")
+            print(f.read())
+            f.close
+        else:
+            print("O arquivo \"logDisco.txt\" nao existe!")
     elif i == 'c':
         update()
     elif i == 'd':
@@ -94,11 +99,19 @@ while i != 's':
     elif i == 'f':
         commit()
     elif i == 'g':
-        print(discoDado)
+        if(os.path.exists(dadosDisco)):
+            f = open(dadosDisco, "r")
+            print(f.read())
+            f.close
+            #print(discoDado)
+        else:
+            print("O arquivo \"DadosDisco.txt\" nao existe!")
     elif i == 'h':
         print(memoriaDado)
     elif i == 'i':
-        print("REDO",redo,"\nUNDO",undo)
+        print("REDO",redo,\
+              "\nUNDO",undo
+              )
     else:
         print("Saindo...")
         break
