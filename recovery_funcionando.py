@@ -46,9 +46,15 @@ def checkpoint():
 def falha():
     undo[:] += ([s for s in memoriaLog if s not in redo])
     for i in undo:
-        print(undo)
+        print("ID:",i[:][1])
+        posicao = i[:][1]
+        print("disco:",discoDado[posicao-1])
+        discoDado[posicao-1] = i[:][3]
+        print("Teste apos falha:", discoDado) 
+
     memoriaLog.clear() 
-    memoriaDado.clear()     
+    memoriaDado.clear()   
+ 
 
 def update():
     try:
@@ -64,6 +70,8 @@ def update():
         print("== Erro ao fazer update!")
 #Transação | ID da pessoa | atributo | valor Antigo | Valor novo
 def menu():
+    print("MEMORIA:",memoriaDado)
+    print("Tx MEMORIA:",memoriaLog,"\n")
     print("a - Visualizar Log da memoria")
     print("b - Visualizar Log do disco")
     print("c - Update")
