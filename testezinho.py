@@ -19,7 +19,7 @@ def falha():
         discoDado[posicao-1] = i[:][4]
         """
 print("undo:",undo,"\n")
-print("dados:",discoDado,"\n")
+print("pre falha Dados:",discoDado,"\n")
 
 falha()
-print("pos falha:\n",discoDado)
+print("pos falha Dados:",discoDado)

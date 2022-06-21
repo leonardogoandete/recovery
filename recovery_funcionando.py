@@ -5,6 +5,7 @@ memoriaDado = [5000,7000,9000,11000,13000]
 discoDado = [5000,7000,9000,11000,13000] 
 redo = []
 undo = []
+memoriaTest = [] 
 dadosDisco = 'discodado.txt'
 logsDisco = 'discolog.txt'
 
@@ -30,6 +31,7 @@ def checkpoint():
             f = open(dadosDisco, "w")
             f.write(str(memoriaDado[:])+"\n")
             f.close
+            memoriaTest[:] += memoriaDado[:]
         else:
             print("O arquivo \"DadosDisco.txt\" nao existe!")
         if(os.path.exists(logsDisco)):
@@ -45,17 +47,19 @@ def checkpoint():
 
 def falha():
     undo[:] += ([s for s in memoriaLog if s not in redo])
+    print("MemoriaTest:",memoriaTest)
     for i in undo:
-        print("ID:",i[:][1])
+        #print("ID:",i[:][1])
         posicao = i[:][1]
-        print("disco:",discoDado[posicao-1])
+        #print("disco:",discoDado[posicao-1])
         val = int(i[:][3])
         discoDado[posicao-1] = val
-        print("Teste apos falha:", discoDado) 
+        memoriaTest[posicao-1] = val
+        #print("Teste apos falha:", discoDado)  
 
     memoriaLog.clear() 
     memoriaDado.clear()   
- 
+    print("MemoriaTest apos falha:",memoriaTest,"\n\n\n")
 
 def update():
     try:
@@ -120,7 +124,7 @@ while i != 's':
     elif i == 'i':
         print("REDO",redo,\
               "\nUNDO",undo,
-              "Var discoDado:",discoDado
+              "mt-Var discoDado:",memoriaTest
               )
     else:
         print("Saindo...")
