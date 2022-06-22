@@ -72,7 +72,7 @@ def update():
     except:
         limpaTela()
         print("== Erro ao fazer update!")
-#Transação | ID da pessoa | atributo | valor Antigo | Valor novo
+
 def menu():
     print("MEMORIA:",memoriaDado)
     print("Tx MEMORIA:",memoriaLog,"\n")
