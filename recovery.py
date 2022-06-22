@@ -5,7 +5,7 @@ memoriaDado = [5000,7000,9000,11000,13000]
 discoDado = [5000,7000,9000,11000,13000] 
 redo = []
 undo = []
-memoriaTest = [] 
+discoDadoAux = [] 
 dadosDisco = 'discodado.txt'
 logsDisco = 'discolog.txt'
 
@@ -33,7 +33,7 @@ def checkpoint():
         if(os.path.exists(dadosDisco)):
             with open(dadosDisco,'w') as f:
                 f.write(str(memoriaDado[:])+"\n")
-            memoriaTest[:] += memoriaDado[:]
+            discoDadoAux[:] += memoriaDado[:]
         else:
             print("O arquivo \"DadosDisco.txt\" nao existe!")
         if(os.path.exists(logsDisco)):
@@ -53,7 +53,7 @@ def falha():
         posicao = i[:][1]
         val = int(i[:][3])
         discoDado[posicao-1] = val
-        memoriaTest[posicao-1] = val
+        discoDadoAux[posicao-1] = val
     memoriaLog.clear()
     memoriaDado.clear()
 
@@ -69,7 +69,7 @@ def update():
     except:
         limpaTela()
         print("== Erro ao fazer update!")
-#Transação | ID da pessoa | atributo | valor Antigo | Valor novo
+
 def menu():
     print("MEMORIA:",memoriaDado)
     print("Tx MEMORIA:",memoriaLog,"\n")
