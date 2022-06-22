@@ -3,9 +3,9 @@ discoLog = []
 memoriaLog = []
 memoriaDado = [5000,7000,9000,11000,13000]
 discoDado = [5000,7000,9000,11000,13000] 
+discoDadoAux = []
 redo = []
-undo = []
-discoDadoAux = [] 
+undo = [] 
 dadosDisco = 'discodado.txt'
 logsDisco = 'discolog.txt'
 
@@ -15,13 +15,12 @@ def limpaTela():
 def commit():
     try:
         t = input("Digite a transação:")
-        discoLog[:] += ([s for s in memoriaLog if t in s])
-        redo[:] += ([s for s in memoriaLog if t in s]) #
+        discoLog.extend([s for s in memoriaLog if t in s])
+        redo.extend([s for s in memoriaLog if t in s]) #
         if(os.path.exists(logsDisco)):
-            f = open(logsDisco, "w")
-            for i in discoLog:
-                f.write(str(i)+"\n")
-            f.close
+            with open(logsDisco, 'w') as f:
+                for i in discoLog:
+                    f.write(str(i)+"\n")
             print("Transação",t,"comitada com sucesso!")
         else:
             print("O arquivo \"logDisco.txt\" nao existe!")
@@ -32,8 +31,7 @@ def checkpoint():
     try:
         if(os.path.exists(dadosDisco)):
             with open(dadosDisco,'w') as f:
-                f.write(str(memoriaDado[:])+"\n")
-            discoDadoAux[:] += memoriaDado[:]
+                f.write(str(memoriaDado)+"\n")
         else:
             print("O arquivo \"DadosDisco.txt\" nao existe!")
         if(os.path.exists(logsDisco)):
@@ -43,19 +41,22 @@ def checkpoint():
                 f.write(str("<CHECKPOINT>\n"))
         else:
             print("O arquivo \"logDisco.txt\" nao existe!")
+        print("Checkpoint realizado com sucesso!")
     except:
-        print("Erro ao realizar Checkpoint")    
+        print("Erro ao realizar Checkpoint!")    
 
 def falha():
-    #chamar Undo e Redo
-    undo[:] += ([s for s in memoriaLog if s not in redo])
-    for i in undo:
-        posicao = i[:][1]
-        val = int(i[:][3])
-        discoDado[posicao-1] = val
-        discoDadoAux[posicao-1] = val
-    memoriaLog.clear()
+    undo.extend([s for s in memoriaLog if s not in redo])
+    discoDadoAux = list(memoriaDado[:])
+    for i in range(len(undo)):
+        beforeImage = undo[i][3]
+        # pega o CODIGO da pessoa e guarda na variavel ID
+        id = undo[i][1]
+        discoDadoAux[id-1] = beforeImage
+    memoriaLog.clear() 
     memoriaDado.clear()
+    with open('discodado.txt','w')as f:
+            f.write(str(discoDadoAux))
 
 def update():
     try:
@@ -63,7 +64,7 @@ def update():
         idValor = int(input("ID da pessoa: "))
         velhoVal = discoDado[idValor - 1]
         novoVal = int(input("Digite o valor: "))
-        memoriaLog[:] += [(numTransacao,idValor,"salario",velhoVal,novoVal)]
+        memoriaLog.append([numTransacao,idValor,"salario",velhoVal,novoVal])
         memoriaDado[idValor - 1] = novoVal
         print("Sucesso ao fazer Update!")
     except:
