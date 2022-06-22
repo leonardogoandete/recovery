@@ -31,31 +31,34 @@ def commit():
 def checkpoint():
     try:
         if(os.path.exists(dadosDisco)):
-            with open(dadosDisco,'w') as f:
-                f.write(str(memoriaDado[:])+"\n")
+            f = open(dadosDisco, "w")
+            f.write(str(memoriaDado[:])+"\n")
+            f.close
             memoriaTest[:] += memoriaDado[:]
         else:
             print("O arquivo \"DadosDisco.txt\" nao existe!")
         if(os.path.exists(logsDisco)):
-            with open(logsDisco, 'w') as f:
-                for i in memoriaLog:
-                    f.write(str(i)+"\n")
-                f.write(str("<CHECKPOINT>\n"))
+            f = open(logsDisco, "w")
+            for i in memoriaLog:
+                f.write(str(i)+"\n")
+            f.write(str("<CHECKPOINT>\n"))
+            f.close
         else:
             print("O arquivo \"logDisco.txt\" nao existe!")
     except:
         print("Erro ao realizar Checkpoint")    
 
 def falha():
-    #chamar Undo e Redo
     undo[:] += ([s for s in memoriaLog if s not in redo])
     for i in undo:
         posicao = i[:][1]
         val = int(i[:][3])
         discoDado[posicao-1] = val
-        memoriaTest[posicao-1] = val
-    memoriaLog.clear()
-    memoriaDado.clear()
+        memoriaTest[posicao-1] = val  
+    memoriaLog.clear() 
+    memoriaDado.clear()   
+    with open('discodado.txt','w')as dadosDisco:
+            dadosDisco.write(str(memoriaTest))
 
 def update():
     try:
@@ -93,8 +96,9 @@ while i != 's':
         print(memoriaLog)
     elif i == 'b':
         if(os.path.exists(logsDisco)):
-            with open(logsDisco, 'r') as f:
-                print(f.read())
+            f = open(logsDisco, "r")
+            print(f.read())
+            f.close
         else:
             print("O arquivo \"logDisco.txt\" nao existe!")
     elif i == 'c':
@@ -102,20 +106,25 @@ while i != 's':
     elif i == 'd':
         checkpoint()
     elif i == 'e':
+        #chamar Undo e Redo
         falha()
     elif i == 'f':
         commit()
     elif i == 'g':
         if(os.path.exists(dadosDisco)):
-            with open(dadosDisco, 'r') as f:
-                print(f.read())
+            f = open(dadosDisco, "r")
+            print(f.read())
+            f.close
+            #print(discoDado)
         else:
             print("O arquivo \"DadosDisco.txt\" nao existe!")
     elif i == 'h':
         print(memoriaDado)
     elif i == 'i':
         print("REDO",redo,\
-            "\nUNDO",undo)
+              "\nUNDO",undo,
+              "mt-Var discoDado:",memoriaTest
+              )
     else:
         print("Saindo...")
         break

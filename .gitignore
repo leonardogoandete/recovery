@@ -127,3 +127,5 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+discodado.txt
+discolog.txt
