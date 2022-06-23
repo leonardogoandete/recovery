@@ -14,12 +14,10 @@ def limpaTela():
 
 def criaArquivos():
     if not (os.path.exists(logsDisco)):
-        with open(logsDisco, 'w+') as f:
-            f.close()
+        with open(logsDisco, 'w+'):
             print("Arquivo \"discolog\" criado!")
     if not (os.path.exists(dadosDisco)):
-        with open(dadosDisco, 'w+') as f:
-            f.close()
+        with open(dadosDisco, 'w+'):
             print("Arquivo \"discodado\" criado!")
              
 def commit():
