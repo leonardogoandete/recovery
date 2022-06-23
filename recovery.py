@@ -65,6 +65,7 @@ def falha():
     memoriaDado.clear()
     with open('discodado.txt','w')as f:
             f.write(str(discoDadoAux))
+    print("REDO",redo,"\nUNDO",undo)
 
 def update():
     try:
