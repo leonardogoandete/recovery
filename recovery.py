@@ -16,9 +16,11 @@ def criaArquivos():
     if not (os.path.exists(logsDisco)):
         with open(logsDisco, 'w+') as f:
             f.close()
+            print("Arquivo \"discolog\" criado!")
     if not (os.path.exists(dadosDisco)):
         with open(dadosDisco, 'w+') as f:
             f.close()
+            print("Arquivo \"discodado\" criado!")
              
 def commit():
     try:
