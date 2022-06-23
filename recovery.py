@@ -12,6 +12,14 @@ logsDisco = 'discolog.txt'
 def limpaTela():
     os.system('cls' if os.name == 'nt' else 'clear')
 
+def criaArquivos():
+    if not (os.path.exists(logsDisco)):
+        with open(logsDisco, 'w+') as f:
+            f.close()
+    if not (os.path.exists(dadosDisco)):
+        with open(dadosDisco, 'w+') as f:
+            f.close()
+             
 def commit():
     try:
         t = input("Digite a transação:")
@@ -87,6 +95,7 @@ def menu():
     print("Digite a opcao: ")
 
 i = None
+criaArquivos()
 while i != 's':
     menu()
     i = input().lower()
