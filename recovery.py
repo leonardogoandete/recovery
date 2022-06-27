@@ -21,19 +21,19 @@ def criaArquivos():
             print("Arquivo \"discodado\" criado!")
              
 def commit():
-    try:
+    #try:
         t = input("Digite a transação:")
         discoLog.extend([s for s in memoriaLog if t in s])
         redo.extend([s for s in memoriaLog if t in s]) #
         if(os.path.exists(logsDisco)):
             with open(logsDisco, 'w') as f:
                 for i in discoLog:
-                    f.write(str(i)+"\n")
+                    f.write(str(i)+"fim\n")
             print("Transação",t,"comitada com sucesso!")
         else:
             print("O arquivo \"logDisco.txt\" nao existe!")
-    except:
-        print("== Erro ao realizar commit!")
+    #except:
+    #    print("== Erro ao realizar commit!")
     
 def checkpoint():
     try:
@@ -106,6 +106,7 @@ while i != 's':
         if(os.path.exists(logsDisco)):
             with open(logsDisco, 'r') as f:
                 print(f.read())
+                #print(discoLog[0],"-fim\n") 
         else:
             print("O arquivo \"logDisco.txt\" nao existe!")
     elif i == 'c':
